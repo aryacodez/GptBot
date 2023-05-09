@@ -12,31 +12,11 @@ exports.isLoggedIn = async (req, res, next) => {
       });
     }
 
-    // const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = await jwt.verify(token, process.env.JWT_SECRET);
 
-    // req.user = await User.findById(decoded.id);
-    // next();
-    await jwt.verify(token,process.env.JWT_SECRET,(err,decodedToken)=>{
-      req.user = User.findById(decodedToken.id);
-      next();
-    })
+    req.user = await User.findById(decoded.id);
+    next();
   } catch (error) {
     console.log(error);
   }
-  // const token = req.cookies.token
-  // if(token){
-  //   jwt.verify(token,process.env.JWT_SECRET,(err,decodedToken)=>{
-  //     if(err){
-  //       console.log(err.message)
-  //       res.redirect('/')
-  //     }else{
-  //       req.user = User.findById(decodedToken.id)
-  //       res.status(200).send(decodedToken)
-  //       next()
-  //     }
-  //   })
-  // }
-  // else{
-  //   res.redirect('/')
-  // }
 };
